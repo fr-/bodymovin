@@ -46,6 +46,9 @@
     function start(){
         animationManager.start();
     }
+    function cancel(){
+        animationManager.cancel();
+    }
     function goToAndStop(val,isFrame, animation){
         animationManager.goToAndStop(val,isFrame, animation);
     }
@@ -91,6 +94,7 @@
     bodymovinjs.setSpeed = setSpeed;
     bodymovinjs.setDirection = setDirection;
     bodymovinjs.stop = stop;
+    bodymovinjs.cancel = cancel;
     bodymovinjs.moveFrame = moveFrame;
     bodymovinjs.searchAnimations = searchAnimations;
     bodymovinjs.registerAnimation = registerAnimation;

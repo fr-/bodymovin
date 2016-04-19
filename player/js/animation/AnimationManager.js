@@ -4,6 +4,7 @@ var animationManager = (function(){
     var initTime = 0;
     var isPaused = true;
     var len = 0;
+    var currentAnimationFrame = null
 
     function removeElement(ev){
         var i = 0;
@@ -86,14 +87,14 @@ var animationManager = (function(){
             registeredAnimations[i].animation.advanceTime(elapsedTime);
         }
         initTime = nowTime;
-        requestAnimationFrame(resume);
+        currentAnimationFrame = requestAnimationFrame(resume);
 
 
     }
 
     function first(nowTime){
         initTime = nowTime;
-        requestAnimationFrame(resume);
+        currentAnimationFrame = requestAnimationFrame(resume);
     }
 
     function pause(animation) {
@@ -163,11 +164,18 @@ var animationManager = (function(){
     }
 
     function start(){
-        requestAnimationFrame(first);
+        if(!currentAnimationFrame) {
+          currentAnimationFrame = requestAnimationFrame(first);
+        }
     }
-    //start();
 
-    setTimeout(start,0);
+    function cancel(){
+        if(currentAnimationFrame) {
+          cancelAnimationFrame(currentAnimationFrame);
+          currentAnimationFrame = null
+        }
+    }
+
 
     moduleOb.registerAnimation = registerAnimation;
     moduleOb.loadAnimation = loadAnimation;
@@ -181,6 +189,7 @@ var animationManager = (function(){
     moduleOb.searchAnimations = searchAnimations;
     moduleOb.resize = resize;
     moduleOb.start = start;
+    moduleOb.cancel = cancel;
     moduleOb.goToAndStop = goToAndStop;
     moduleOb.destroy = destroy;
     return moduleOb;
